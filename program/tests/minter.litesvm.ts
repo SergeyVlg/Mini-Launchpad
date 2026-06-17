@@ -1,25 +1,13 @@
-import * as anchor from "@coral-xyz/anchor";
-import { BorshAccountsCoder, BorshInstructionCoder, type Idl } from "@coral-xyz/anchor";
-import { LiteSVM } from "litesvm";
-import {
-  Keypair,
-  PublicKey,
-  SystemProgram,
-  Transaction,
-  TransactionInstruction
-} from "@solana/web3.js";
-import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from "@solana/spl-token";
-import { expect } from "chai";
-import path from "path";
-import { createRequire } from "module";
-import { fileURLToPath } from "url";
-import BN from "bn.js";
-const require = createRequire(import.meta.url);
+const anchor = require("@coral-xyz/anchor");
+const { BorshAccountsCoder, BorshInstructionCoder } = require("@coral-xyz/anchor");
+const { LiteSVM } = require("litesvm");
+const { Keypair, PublicKey, SystemProgram, Transaction, TransactionInstruction } = require("@solana/web3.js");
+const { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } = require("@solana/spl-token");
+const { expect } = require("chai");
+const path = require("path");
+const BN = require("bn.js");
 const oracleIdl = require("../target/idl/sol_usd_oracle.json");
 const minterIdl = require("../target/idl/token_minter.json");
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const ORACLE_PROGRAM_ID = new PublicKey("4cuvLFFqhaKnTHfeq2FtTUvgudRSe7wq982fA9PBUqBU");
 const MINTER_PROGRAM_ID = new PublicKey("E5erGzaxgCwHqH7RjLXLGWziXj8CXpyN7zW6BRodfFnE");
@@ -32,10 +20,10 @@ const MINTER_SEED = Buffer.from("minter_config");
 const PRICE = new BN(120_000_000); // $120 * 1e6
 const FEE_USD = new BN(5_000_000); // $5 * 1e6
 
-const oracleCoder = new BorshInstructionCoder(oracleIdl as Idl);
-const oracleAccounts = new BorshAccountsCoder(oracleIdl as Idl);
-const minterCoder = new BorshInstructionCoder(minterIdl as Idl);
-const minterAccounts = new BorshAccountsCoder(minterIdl as Idl);
+const oracleCoder = new BorshInstructionCoder(oracleIdl);
+const oracleAccounts = new BorshAccountsCoder(oracleIdl);
+const minterCoder = new BorshInstructionCoder(minterIdl);
+const minterAccounts = new BorshAccountsCoder(minterIdl);
 
 function assertSuccess(res: any) {
   if (typeof res?.err === "function") {
@@ -169,7 +157,7 @@ describe("token_minter (LiteSVM)", () => {
     const treasuryAfter = svm.getBalance(treasury.publicKey) ?? BigInt(0);
     // TODO(student): this formula is intentionally broken.
     // The fee should get smaller when SOL/USD price gets larger.
-    const expectedFee = PRICE.mul(new BN(anchor.web3.LAMPORTS_PER_SOL)).div(FEE_USD);
+    const expectedFee = FEE_USD.mul(new BN(anchor.web3.LAMPORTS_PER_SOL)).div(PRICE);
     expect(treasuryAfter - treasuryBefore).to.eq(BigInt(expectedFee.toString()));
 
     const mintAcct = svm.getAccount(mintKeypair.publicKey);
