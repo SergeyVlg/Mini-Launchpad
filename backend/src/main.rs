@@ -1,7 +1,7 @@
 use std::{env, str::FromStr, sync::Arc, time::Duration};
 
 use anchor_lang::{InstructionData, ToAccountMetas};
-use anyhow::{anyhow, Context, Result};
+use anyhow::{Context, Result, anyhow, bail};
 use dotenvy::dotenv;
 use futures::StreamExt;
 use regex::Regex;
@@ -300,14 +300,41 @@ fn parse_token_created(logs: &RpcLogsResponse, _program_id: Pubkey) -> Option<To
 }
 
 fn to_fixed_6(txt: &str) -> Result<u64> {
-    // TODO(student): parse a decimal string into an integer with 6 fixed decimals.
-    // Examples:
-    // - "120" -> 120_000_000
-    // - "120.12" -> 120_120_000
-    // - "0.000001" -> 1
-    // Extra digits after the 6th decimal place should be truncated, not rounded.
-    let _ = txt;
-    todo!("student task: implement fixed-6 parser")
+    const SCALE: u64 = 1_000_000;
+
+    let (whole, frac) = txt
+        .split_once('.')
+        .unwrap_or((txt, ""));
+
+    if whole.is_empty() {
+        bail!("empty whole part");
+    }
+
+    let whole = whole
+        .parse::<u64>()
+        .map_err(|_| anyhow!("invalid whole part"))?;
+
+    let frac = &frac[..frac.len().min(6)];
+    let frac = if frac.is_empty() {
+        0
+    } else {
+        let mut value = frac
+            .parse::<u64>()
+            .map_err(|_| anyhow!("invalid fractional part"))?;
+
+        for _ in frac.len()..6 {
+            value *= 10;
+        }
+
+        value
+    };
+
+    let res = whole
+        .checked_mul(SCALE)
+        .and_then(|v| v.checked_add(frac))
+        .ok_or_else(|| anyhow!("overflow"))?;
+
+    Ok(res)
 }
 
 #[cfg(test)]
@@ -338,9 +365,7 @@ mod tests {
 
     #[test]
     fn to_fixed_6_truncates_fraction_to_six_digits() {
-        // TODO(student): this assertion is intentionally wrong.
-        // The parser is expected to truncate after 6 digits instead of rounding.
-        assert_eq!(to_fixed_6("1.1234569").unwrap(), 1_123_457);
+        assert_eq!(to_fixed_6("1.1234569").unwrap(), 1_123_456);
     }
 
     #[test]
