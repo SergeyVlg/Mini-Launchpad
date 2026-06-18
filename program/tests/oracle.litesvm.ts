@@ -6,7 +6,7 @@ const path = require("path");
 const BN = require("bn.js");
 const oracleIdl = require("../target/idl/sol_usd_oracle.json");
 
-const ORACLE_PROGRAM_ID = new PublicKey("4cuvLFFqhaKnTHfeq2FtTUvgudRSe7wq982fA9PBUqBU");
+const ORACLE_PROGRAM_ID = new PublicKey("29h3DFB1hzbvuNk2ouWo5qzFukCbfPFWH5XKDBCL3bfJ");
 const ORACLE_SO = path.resolve(__dirname, "../target/deploy/sol_usd_oracle.so");
 const ORACLE_SEED = Buffer.from("oracle_state");
 

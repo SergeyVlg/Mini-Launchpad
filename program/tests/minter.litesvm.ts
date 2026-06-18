@@ -9,8 +9,8 @@ const BN = require("bn.js");
 const oracleIdl = require("../target/idl/sol_usd_oracle.json");
 const minterIdl = require("../target/idl/token_minter.json");
 
-const ORACLE_PROGRAM_ID = new PublicKey("4cuvLFFqhaKnTHfeq2FtTUvgudRSe7wq982fA9PBUqBU");
-const MINTER_PROGRAM_ID = new PublicKey("E5erGzaxgCwHqH7RjLXLGWziXj8CXpyN7zW6BRodfFnE");
+const ORACLE_PROGRAM_ID = new PublicKey("29h3DFB1hzbvuNk2ouWo5qzFukCbfPFWH5XKDBCL3bfJ");
+const MINTER_PROGRAM_ID = new PublicKey("8oifK3hXVgR2ZBjXeuM24fZHpiY6v3SmiquHJqoXc4X");
 
 const ORACLE_SO = path.resolve(__dirname, "../target/deploy/sol_usd_oracle.so");
 const MINTER_SO = path.resolve(__dirname, "../target/deploy/token_minter.so");
