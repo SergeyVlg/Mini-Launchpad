@@ -1,12 +1,18 @@
-const { BorshAccountsCoder, BorshInstructionCoder } = require("@coral-xyz/anchor");
-const { LiteSVM } = require("litesvm");
-const { Keypair, PublicKey, SystemProgram, Transaction, TransactionInstruction } = require("@solana/web3.js");
-const { expect } = require("chai");
-const path = require("path");
-const BN = require("bn.js");
-const oracleIdl = require("../target/idl/sol_usd_oracle.json");
+import { BorshAccountsCoder, BorshInstructionCoder } from "@coral-xyz/anchor";
+import { LiteSVM } from "litesvm";
+import { Keypair, PublicKey, SystemProgram, Transaction, TransactionInstruction } from "@solana/web3.js";
+import { expect } from "chai";
+import path from "path";
+import BN from "bn.js";
+import oracleIdl from "../target/idl/sol_usd_oracle.json" with { type: "json" };
 
-const ORACLE_PROGRAM_ID = new PublicKey("29h3DFB1hzbvuNk2ouWo5qzFukCbfPFWH5XKDBCL3bfJ");
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const ORACLE_PROGRAM_ID = new PublicKey("AKbjyZWUjJwgmDzQsadfH2H5f7wszQUQa2hSHKDHGNR5");
 const ORACLE_SO = path.resolve(__dirname, "../target/deploy/sol_usd_oracle.so");
 const ORACLE_SEED = Buffer.from("oracle_state");
 
