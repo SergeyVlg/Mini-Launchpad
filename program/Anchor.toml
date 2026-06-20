@@ -10,8 +10,8 @@ sol_usd_oracle = "29h3DFB1hzbvuNk2ouWo5qzFukCbfPFWH5XKDBCL3bfJ"
 token_minter = "8oifK3hXVgR2ZBjXeuM24fZHpiY6v3SmiquHJqoXc4X"
 
 [programs.devnet]
-sol_usd_oracle = "4cuvLFFqhaKnTHfeq2FtTUvgudRSe7wq982fA9PBUqBU"
-token_minter = "E5erGzaxgCwHqH7RjLXLGWziXj8CXpyN7zW6BRodfFnE"
+sol_usd_oracle = "AKbjyZWUjJwgmDzQsadfH2H5f7wszQUQa2hSHKDHGNR5"
+token_minter = "HHPtXYpQVXB7f8hUFpjH5N7Z5k1pk2Re9Bw3UAErvcR2"
 
 [registry]
 url = "https://api.apr.dev"

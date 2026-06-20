@@ -19,8 +19,8 @@ import BN from "bn.js";
 
 const require = createRequire(import.meta.url);
 
-const ORACLE_PROGRAM_ID = new PublicKey("29h3DFB1hzbvuNk2ouWo5qzFukCbfPFWH5XKDBCL3bfJ");
-const MINTER_PROGRAM_ID = new PublicKey("8oifK3hXVgR2ZBjXeuM24fZHpiY6v3SmiquHJqoXc4X");
+const ORACLE_PROGRAM_ID = new PublicKey("AKbjyZWUjJwgmDzQsadfH2H5f7wszQUQa2hSHKDHGNR5");
+const MINTER_PROGRAM_ID = new PublicKey("HHPtXYpQVXB7f8hUFpjH5N7Z5k1pk2Re9Bw3UAErvcR2");
 const ORACLE_SEED = Buffer.from("oracle_state");
 const MINTER_SEED = Buffer.from("minter_config");
 const INITIAL_PRICE = new BN(120_000_000);
